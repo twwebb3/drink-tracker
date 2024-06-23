@@ -10,11 +10,12 @@ import CoreData
 
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var dataManager: DataManager
 
     var body: some View {
         VStack {
             Button("Clear Drink History") {
-                clearDrinkHistory()
+                dataManager.clearDrinkHistory(context: viewContext)
             }
             .padding()
             .foregroundColor(.white)
@@ -24,17 +25,8 @@ struct SettingsView: View {
         .padding()
         .navigationTitle("Settings")
     }
-    
-    private func clearDrinkHistory() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Drink")
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+}
 
-        do {
-            try viewContext.execute(batchDeleteRequest)
-            try viewContext.save() // Save the context after deletion
-        } catch {
-            // Handle the error appropriately
-            print("Error clearing drink history: \(error)")
-        }
-    }
+extension Notification.Name {
+    static let didWipeData = Notification.Name("didWipeData")
 }

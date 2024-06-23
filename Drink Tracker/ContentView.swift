@@ -22,6 +22,7 @@ let predefinedDrinks = [
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var dataManager: DataManager
     
     // Fetching drinks from CoreData
     @FetchRequest(
@@ -55,6 +56,7 @@ struct ContentView: View {
                                         }
                                         .pickerStyle(MenuPickerStyle())
                 }
+                .onAppear(perform: setupNotification)
                 
                 Section(header: Text("Add Drink")) {
                     Button("Add Drink") {
@@ -78,12 +80,21 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: SettingsView()) {
+                    NavigationLink(destination: SettingsView(dataManager: dataManager)) {
                         Text("Settings")
+                    }
+                }
+                
+                Section(header: Text("Refresh")) {
+                    Button("Refresh Data") {
+                        self.refreshData()
                     }
                 }
             }
             .navigationBarTitle("BAC Tracker")
+            .onReceive(dataManager.$refreshTrigger) { _ in
+                // Trigger a view refresh
+            }
         }
     }
     
@@ -136,11 +147,27 @@ struct ContentView: View {
         // Assuming BAC drops at about 0.015 per hour
         return max(0, bac / 0.015)
     }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(forName: .didWipeData, object: nil, queue: .main) { _ in
+            refreshData()
+        }
+        
+        NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave, object: nil, queue: .main) { _ in
+            refreshData()
+        }
+    }
+
+    private func refreshData() {
+        viewContext.performAndWait {
+                viewContext.refreshAllObjects()
+            }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(dataManager: DataManager()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
 

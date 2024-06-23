@@ -16,6 +16,7 @@
 		9909F9282BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9272BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift */; };
 		9909F9372BACCD62002372B6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9362BACCD62002372B6 /* User.swift */; };
 		9909F93A2BACD217002372B6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9382BACD217002372B6 /* Model.xcdatamodeld */; };
+		994435602BFCB33B007D1D5B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9944355F2BFCB33B007D1D5B /* DataManager.swift */; };
 		9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5612BACD4AA00CDA765 /* PersistenceController.swift */; };
 		9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5632BACF18600CDA765 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		9909F9272BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink_TrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9909F9362BACCD62002372B6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9909F9392BACD217002372B6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		9944355F2BFCB33B007D1D5B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9973F5612BACD4AA00CDA765 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		9973F5632BACF18600CDA765 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,6 +112,7 @@
 				9909F9362BACCD62002372B6 /* User.swift */,
 				9909F90E2BACCD01002372B6 /* Assets.xcassets */,
 				9909F9102BACCD01002372B6 /* Preview Content */,
+				9944355F2BFCB33B007D1D5B /* DataManager.swift */,
 			);
 			path = "Drink Tracker";
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				9909F9372BACCD62002372B6 /* User.swift in Sources */,
 				9909F90D2BACCCFE002372B6 /* ContentView.swift in Sources */,
 				9909F93A2BACD217002372B6 /* Model.xcdatamodeld in Sources */,
+				994435602BFCB33B007D1D5B /* DataManager.swift in Sources */,
 				9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */,
 				9909F90B2BACCCFE002372B6 /* Drink_TrackerApp.swift in Sources */,
 				9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */,
