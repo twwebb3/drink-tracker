@@ -17,7 +17,8 @@ struct DrinkOption {
 let predefinedDrinks = [
     DrinkOption(type: "Single", alcoholContent: 40, volume: 45),
     DrinkOption(type: "Double", alcoholContent: 40, volume: 90),
-    DrinkOption(type: "Beer", alcoholContent: 4, volume: 384)
+    DrinkOption(type: "Beer", alcoholContent: 4, volume: 384),
+    DrinkOption(type: "Water", alcoholContent: 0, volume: 100)
 ]
 
 struct ContentView: View {
@@ -66,9 +67,9 @@ struct ContentView: View {
                 }
                 
                 Section(header: Text("Estimated BAC")) {
-                    Text("BAC: \(calculateBAC(), specifier: "%.3f")‰")
-                    Text("Feeling: \(describeBACLevel(bac: calculateBAC()))")
-                    Text("Hours until sober: \(hoursUntilSober(bac: calculateBAC()), specifier: "%.2f")")
+                    Text("BAC: \(calculateBAC(currentTime: Date()), specifier: "%.3f")‰")
+                    Text("Feeling: \(describeBACLevel(bac: calculateBAC(currentTime: Date())))")
+                    Text("Hours until sober: \(hoursUntilSober(bac: calculateBAC(currentTime: Date())), specifier: "%.2f")")
                 }
                 
                 Section(header: Text("Last Drink")) {
@@ -116,11 +117,17 @@ struct ContentView: View {
         }
     }
     
-    private func calculateBAC() -> Double {
+    private func calculateBAC(currentTime: Date) -> Double {
         guard weight > 0 else { return 0 }
+
+        let metabolismRate = 0.015 // Average metabolism rate per hour
         
-        // Convert total alcohol consumed to grams. (ml * %ABV * 0.789 = grams of alcohol)
-        let totalAlcoholGrams = drinks.reduce(0) { $0 + ($1.alcoholContent * $1.volume * 0.789 / 100) }
+        // Calculate total grams of alcohol, adjusted for metabolism over time
+        let totalAlcoholGrams = drinks.reduce(0) { total, drink in
+            let hoursSinceDrink = currentTime.timeIntervalSince(drink.startTime ?? Date()) / 3600 // Convert seconds to hours
+            let metabolizedAlcohol = max(0, hoursSinceDrink * metabolismRate * (drink.alcoholContent * drink.volume * 0.789 / 100))
+            return total + (drink.alcoholContent * drink.volume * 0.789 / 100) - metabolizedAlcohol
+        }
         
         // Convert body weight to grams and adjust for water distribution ratio
         let bodyWeightGrams = weight * 1000 // Convert kg to grams
@@ -128,8 +135,9 @@ struct ContentView: View {
         
         // Calculate BAC
         let bac = (totalAlcoholGrams / adjustedBodyWeight) * 100
-        return bac
+        return max(0,bac)
     }
+
     
     private func describeBACLevel(bac: Double) -> String {
         switch bac {
