@@ -124,10 +124,18 @@ struct ContentView: View {
 
         // Calculate total grams of alcohol, adjusted for metabolism over time from each drink
         let totalAlcoholGrams = drinks.reduce(0) { total, drink in
-            let hoursSinceDrink = currentTime.timeIntervalSince(drink.startTime ?? Date()) / 3600 // Convert seconds to hours
+            guard let startTime = drink.startTime else { return total }
+            
+            let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600 // Convert seconds to hours
             let initialAlcoholGrams = drink.alcoholContent * drink.volume * 0.789 / 100
-            let metabolizedAlcohol = max(0, hoursSinceDrink * metabolismRate * initialAlcoholGrams)
-            return total + max(0, initialAlcoholGrams - metabolizedAlcohol)
+            
+            // If the drink has been fully metabolized, don't include it
+            if hoursSinceDrink * metabolismRate >= initialAlcoholGrams / weight {
+                return total
+            }
+            
+            let remainingAlcohol = max(0, initialAlcoholGrams - (hoursSinceDrink * metabolismRate * weight))
+            return total + remainingAlcohol
         }
         
         // Convert body weight to grams and adjust for water distribution ratio
