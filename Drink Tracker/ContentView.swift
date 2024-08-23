@@ -84,6 +84,9 @@ struct ContentView: View {
                     NavigationLink(destination: SettingsView(dataManager: dataManager)) {
                         Text("Settings")
                     }
+                    NavigationLink(destination: DataView(dataManager: dataManager)) {
+                        Text("Data")
+                    }
                 }
                 
                 Section(header: Text("Refresh")) {
