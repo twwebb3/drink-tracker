@@ -19,6 +19,7 @@
 		994435602BFCB33B007D1D5B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9944355F2BFCB33B007D1D5B /* DataManager.swift */; };
 		9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5612BACD4AA00CDA765 /* PersistenceController.swift */; };
 		9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5632BACF18600CDA765 /* SettingsView.swift */; };
+		99BCBCD52C73CBF70089E259 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BCBCD42C73CBF70089E259 /* DataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		9944355F2BFCB33B007D1D5B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9973F5612BACD4AA00CDA765 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		9973F5632BACF18600CDA765 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		99BCBCD42C73CBF70089E259 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				9909F90E2BACCD01002372B6 /* Assets.xcassets */,
 				9909F9102BACCD01002372B6 /* Preview Content */,
 				9944355F2BFCB33B007D1D5B /* DataManager.swift */,
+				99BCBCD42C73CBF70089E259 /* DataView.swift */,
 			);
 			path = "Drink Tracker";
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				994435602BFCB33B007D1D5B /* DataManager.swift in Sources */,
 				9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */,
 				9909F90B2BACCCFE002372B6 /* Drink_TrackerApp.swift in Sources */,
+				99BCBCD52C73CBF70089E259 /* DataView.swift in Sources */,
 				9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +446,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Drink Tracker/Preview Content\"";
+				DEVELOPMENT_TEAM = CR52FK8YLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -470,6 +475,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Drink Tracker/Preview Content\"";
+				DEVELOPMENT_TEAM = CR52FK8YLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

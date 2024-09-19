@@ -84,6 +84,9 @@ struct ContentView: View {
                     NavigationLink(destination: SettingsView(dataManager: dataManager)) {
                         Text("Settings")
                     }
+                    NavigationLink(destination: DataView(dataManager: dataManager)) {
+                        Text("Data")
+                    }
                 }
                 
                 Section(header: Text("Refresh")) {
@@ -121,12 +124,21 @@ struct ContentView: View {
         guard weight > 0 else { return 0 }
 
         let metabolismRate = 0.015 // Average metabolism rate per hour
-        
-        // Calculate total grams of alcohol, adjusted for metabolism over time
+
+        // Calculate total grams of alcohol, adjusted for metabolism over time from each drink
         let totalAlcoholGrams = drinks.reduce(0) { total, drink in
-            let hoursSinceDrink = currentTime.timeIntervalSince(drink.startTime ?? Date()) / 3600 // Convert seconds to hours
-            let metabolizedAlcohol = max(0, hoursSinceDrink * metabolismRate * (drink.alcoholContent * drink.volume * 0.789 / 100))
-            return total + (drink.alcoholContent * drink.volume * 0.789 / 100) - metabolizedAlcohol
+            guard let startTime = drink.startTime else { return total }
+            
+            let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600 // Convert seconds to hours
+            let initialAlcoholGrams = drink.alcoholContent * drink.volume * 0.789 / 100
+            
+            // If the drink has been fully metabolized, don't include it
+            if hoursSinceDrink * metabolismRate >= initialAlcoholGrams / weight {
+                return total
+            }
+            
+            let remainingAlcohol = max(0, initialAlcoholGrams - (hoursSinceDrink * metabolismRate * weight))
+            return total + remainingAlcohol
         }
         
         // Convert body weight to grams and adjust for water distribution ratio
@@ -135,8 +147,11 @@ struct ContentView: View {
         
         // Calculate BAC
         let bac = (totalAlcoholGrams / adjustedBodyWeight) * 100
-        return max(0,bac)
+        
+        // Ensure BAC is not negative
+        return max(0, bac)
     }
+
 
     
     private func describeBACLevel(bac: Double) -> String {
