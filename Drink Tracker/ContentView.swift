@@ -24,6 +24,7 @@ let predefinedDrinks = [
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var dataManager: DataManager
+    @ObservedObject var user: User
     
     // Fetching drinks from CoreData
     @FetchRequest(
@@ -81,7 +82,7 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: SettingsView(dataManager: dataManager)) {
+                    NavigationLink(destination: SettingsView(dataManager: dataManager, user: user)) {
                         Text("Settings")
                     }
                     NavigationLink(destination: DataView(dataManager: dataManager)) {
@@ -121,29 +122,27 @@ struct ContentView: View {
     }
     
     private func calculateBAC(currentTime: Date) -> Double {
-        guard weight > 0 else { return 0 }
+        guard user.weight > 0 else { return 0 }
 
         let metabolismRate = 0.015 // Average metabolism rate per hour
+        let r = user.gender == "Male" ? 0.68 : 0.55
 
         // Calculate total grams of alcohol, adjusted for metabolism over time from each drink
         let totalAlcoholGrams = drinks.reduce(0) { total, drink in
             guard let startTime = drink.startTime else { return total }
             
             let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600 // Convert seconds to hours
-            let initialAlcoholGrams = drink.alcoholContent * drink.volume * 0.789 / 100
+            let initialAlcoholGrams = drink.alcoholContent * drink.volume * 0.789 / 100 // Adjusted formula
             
-            // If the drink has been fully metabolized, don't include it
-            if hoursSinceDrink * metabolismRate >= initialAlcoholGrams / weight {
-                return total
-            }
+            // Calculate metabolized alcohol
+            let metabolizedAlcohol = metabolismRate * user.weight * hoursSinceDrink
+            let remainingAlcohol = max(0, initialAlcoholGrams - metabolizedAlcohol)
             
-            let remainingAlcohol = max(0, initialAlcoholGrams - (hoursSinceDrink * metabolismRate * weight))
             return total + remainingAlcohol
         }
         
         // Convert body weight to grams and adjust for water distribution ratio
-        let bodyWeightGrams = weight * 1000 // Convert kg to grams
-        let adjustedBodyWeight = bodyWeightGrams * (gender == "Male" ? 0.68 : 0.55)
+        let adjustedBodyWeight = user.weight * 1000 * r // Convert kg to grams and apply r
         
         // Calculate BAC
         let bac = (totalAlcoholGrams / adjustedBodyWeight) * 100
@@ -190,7 +189,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(dataManager: DataManager()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(dataManager: DataManager(), user: User()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
 
