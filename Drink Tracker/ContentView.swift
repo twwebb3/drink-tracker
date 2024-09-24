@@ -122,34 +122,44 @@ struct ContentView: View {
     }
     
     private func calculateBAC(currentTime: Date) -> Double {
+        // Ensure the user's weight is positive
         guard user.weight > 0 else { return 0 }
 
-        let metabolismRate = 0.015 // Average metabolism rate per hour
-        let r = user.gender == "Male" ? 0.68 : 0.55
+        // Define metabolism rate and gender constant
+        let metabolismRate: Double = 0.015 // Average metabolism rate per hour
+        let r: Double = (user.gender.lowercased() == "male") ? 0.68 : 0.55
 
-        // Calculate total grams of alcohol, adjusted for metabolism over time from each drink
-        let totalAlcoholGrams = drinks.reduce(0) { total, drink in
-            guard let startTime = drink.startTime else { return total }
-            
-            let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600 // Convert seconds to hours
-            let initialAlcoholGrams = drink.alcoholContent * drink.volume * 0.789 / 100 // Adjusted formula
-            
-            // Calculate metabolized alcohol
-            let metabolizedAlcohol = metabolismRate * user.weight * hoursSinceDrink
-            let remainingAlcohol = max(0, initialAlcoholGrams - metabolizedAlcohol)
-            
-            return total + remainingAlcohol
+        // Calculate BAC contributions from each drink
+        let bacContributions = drinks.compactMap { drink -> Double? in
+            guard let startTime = drink.startTime else { return nil }
+
+            let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600.0
+
+            if hoursSinceDrink < 0 {
+                // Drink time is in the future, ignore or handle accordingly
+                return nil
+            }
+
+            // Calculate grams of alcohol in this drink
+            // Formula: A = (ABV / 100) * Volume (mL) * 0.789 (density of ethanol in g/mL)
+            let alcoholGrams = (drink.alcoholContent / 100.0) * drink.volume * 0.789
+
+            // Calculate BAC contribution for this drink
+            // BAC = (A / (r * W * 10)) - (beta * T)
+            let bacFromDrink = (alcoholGrams / (r * user.weight * 10)) - (metabolismRate * hoursSinceDrink)
+
+            // Ensure that the BAC contribution is not negative
+            return max(0, bacFromDrink)
         }
-        
-        // Convert body weight to grams and adjust for water distribution ratio
-        let adjustedBodyWeight = user.weight * 1000 * r // Convert kg to grams and apply r
-        
-        // Calculate BAC
-        let bac = (totalAlcoholGrams / adjustedBodyWeight) * 100
-        
+
+        // Sum all BAC contributions
+        let totalBAC = bacContributions.reduce(0.0, +)
+
         // Ensure BAC is not negative
-        return max(0, bac)
+        return max(0, totalBAC)
     }
+
+
 
 
     
