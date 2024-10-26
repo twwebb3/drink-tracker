@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct Drink_TrackerApp: App {
     let persistenceController = PersistenceController.shared
-    var dataManager = DataManager()
+    var dataManager = DataManager(context: PersistenceController.shared.container.viewContext)
     var user = User()
     
     var body: some Scene {

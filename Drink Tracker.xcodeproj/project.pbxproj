@@ -3,23 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9909F90B2BACCCFE002372B6 /* Drink_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F90A2BACCCFE002372B6 /* Drink_TrackerApp.swift */; };
-		9909F90D2BACCCFE002372B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F90C2BACCCFE002372B6 /* ContentView.swift */; };
 		9909F90F2BACCD01002372B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9909F90E2BACCD01002372B6 /* Assets.xcassets */; };
 		9909F9122BACCD01002372B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9909F9112BACCD01002372B6 /* Preview Assets.xcassets */; };
 		9909F91C2BACCD02002372B6 /* Drink_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F91B2BACCD02002372B6 /* Drink_TrackerTests.swift */; };
 		9909F9262BACCD02002372B6 /* Drink_TrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9252BACCD02002372B6 /* Drink_TrackerUITests.swift */; };
 		9909F9282BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9272BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift */; };
-		9909F9372BACCD62002372B6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9362BACCD62002372B6 /* User.swift */; };
 		9909F93A2BACD217002372B6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9909F9382BACD217002372B6 /* Model.xcdatamodeld */; };
-		994435602BFCB33B007D1D5B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9944355F2BFCB33B007D1D5B /* DataManager.swift */; };
-		9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5612BACD4AA00CDA765 /* PersistenceController.swift */; };
-		9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9973F5632BACF18600CDA765 /* SettingsView.swift */; };
-		99BCBCD52C73CBF70089E259 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BCBCD42C73CBF70089E259 /* DataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +34,6 @@
 
 /* Begin PBXFileReference section */
 		9909F9072BACCCFE002372B6 /* Drink Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drink Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9909F90A2BACCCFE002372B6 /* Drink_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink_TrackerApp.swift; sourceTree = "<group>"; };
-		9909F90C2BACCCFE002372B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9909F90E2BACCD01002372B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9909F9112BACCD01002372B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9909F9172BACCD02002372B6 /* Drink TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drink TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,13 +41,15 @@
 		9909F9212BACCD02002372B6 /* Drink TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drink TrackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9909F9252BACCD02002372B6 /* Drink_TrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink_TrackerUITests.swift; sourceTree = "<group>"; };
 		9909F9272BACCD02002372B6 /* Drink_TrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink_TrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		9909F9362BACCD62002372B6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9909F9392BACD217002372B6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		9944355F2BFCB33B007D1D5B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		9973F5612BACD4AA00CDA765 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		9973F5632BACF18600CDA765 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		99BCBCD42C73CBF70089E259 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		991A7B232CCD8863008770A8 /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		991A7B242CCD886D008770A8 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		991A7B252CCD8877008770A8 /* Persistence */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Persistence; sourceTree = "<group>"; };
+		991A7B262CCD8884008770A8 /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9909F9042BACCCFE002372B6 /* Frameworks */ = {
@@ -106,16 +99,13 @@
 		9909F9092BACCCFE002372B6 /* Drink Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				9909F90A2BACCCFE002372B6 /* Drink_TrackerApp.swift */,
-				9909F90C2BACCCFE002372B6 /* ContentView.swift */,
-				9973F5632BACF18600CDA765 /* SettingsView.swift */,
-				9973F5612BACD4AA00CDA765 /* PersistenceController.swift */,
+				991A7B262CCD8884008770A8 /* App */,
+				991A7B252CCD8877008770A8 /* Persistence */,
+				991A7B242CCD886D008770A8 /* Views */,
+				991A7B232CCD8863008770A8 /* Models */,
 				9909F9382BACD217002372B6 /* Model.xcdatamodeld */,
-				9909F9362BACCD62002372B6 /* User.swift */,
 				9909F90E2BACCD01002372B6 /* Assets.xcassets */,
 				9909F9102BACCD01002372B6 /* Preview Content */,
-				9944355F2BFCB33B007D1D5B /* DataManager.swift */,
-				99BCBCD42C73CBF70089E259 /* DataView.swift */,
 			);
 			path = "Drink Tracker";
 			sourceTree = "<group>";
@@ -159,6 +149,12 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				991A7B232CCD8863008770A8 /* Models */,
+				991A7B242CCD886D008770A8 /* Views */,
+				991A7B252CCD8877008770A8 /* Persistence */,
+				991A7B262CCD8884008770A8 /* App */,
 			);
 			name = "Drink Tracker";
 			productName = "Drink Tracker";
@@ -275,14 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9909F9372BACCD62002372B6 /* User.swift in Sources */,
-				9909F90D2BACCCFE002372B6 /* ContentView.swift in Sources */,
 				9909F93A2BACD217002372B6 /* Model.xcdatamodeld in Sources */,
-				994435602BFCB33B007D1D5B /* DataManager.swift in Sources */,
-				9973F5642BACF18600CDA765 /* SettingsView.swift in Sources */,
-				9909F90B2BACCCFE002372B6 /* Drink_TrackerApp.swift in Sources */,
-				99BCBCD52C73CBF70089E259 /* DataView.swift in Sources */,
-				9973F5622BACD4AA00CDA765 /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

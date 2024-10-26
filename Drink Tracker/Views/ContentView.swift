@@ -63,14 +63,15 @@ struct ContentView: View {
                 Section(header: Text("Add Drink")) {
                     Button("Add Drink") {
                         let drink = predefinedDrinks[selectedDrinkIndex]
-                        addDrink(type: drink.type, alcoholContent: drink.alcoholContent, volume: drink.volume)
+                        dataManager.addDrink(type: drink.type, alcoholContent: drink.alcoholContent, volume: drink.volume)
                     }
                 }
                 
                 Section(header: Text("Estimated BAC")) {
-                    Text("BAC: \(calculateBAC(currentTime: Date()), specifier: "%.3f")‰")
-                    Text("Feeling: \(describeBACLevel(bac: calculateBAC(currentTime: Date())))")
-                    Text("Hours until sober: \(hoursUntilSober(bac: calculateBAC(currentTime: Date())), specifier: "%.2f")")
+                    let bac = BACUtility.calculateBAC(user: user, drinks: Array(drinks), currentTime: Date())
+                    Text("BAC: \(bac, specifier: "%.3f")‰")
+                    Text("Feeling: \(BACUtility.describeBACLevel(bac: bac))")
+                    Text("Hours until sober: \(BACUtility.hoursUntilSober(bac: bac), specifier: "%.2f")")
                 }
                 
                 Section(header: Text("Last Drink")) {
@@ -103,82 +104,7 @@ struct ContentView: View {
         }
     }
     
-    private func addDrink(type: String, alcoholContent: Double, volume: Double) {
-        withAnimation {
-            let newDrink = Drink(context: viewContext)
-            newDrink.type = type
-            newDrink.alcoholContent = alcoholContent
-            newDrink.volume = volume
-            newDrink.startTime = Date()
-            newDrink.endTime = Date().addingTimeInterval(3600) // For simplicity, 1 hour later
-            
-            do {
-                try viewContext.save()
-            } catch {
-                // Handle the Core Data error, e.g., show an error message
-                print(error.localizedDescription)
-            }
-        }
-    }
     
-    private func calculateBAC(currentTime: Date) -> Double {
-        // Ensure the user's weight is positive
-        guard user.weight > 0 else { return 0 }
-
-        // Define metabolism rate and gender constant
-        let metabolismRate: Double = 0.015 // Average metabolism rate per hour
-        let r: Double = (user.gender.lowercased() == "male") ? 0.68 : 0.55
-
-        // Calculate BAC contributions from each drink
-        let bacContributions = drinks.compactMap { drink -> Double? in
-            guard let startTime = drink.startTime else { return nil }
-
-            let hoursSinceDrink = currentTime.timeIntervalSince(startTime) / 3600.0
-
-            if hoursSinceDrink < 0 {
-                // Drink time is in the future, ignore or handle accordingly
-                return nil
-            }
-
-            // Calculate grams of alcohol in this drink
-            // Formula: A = (ABV / 100) * Volume (mL) * 0.789 (density of ethanol in g/mL)
-            let alcoholGrams = (drink.alcoholContent / 100.0) * drink.volume * 0.789
-
-            // Calculate BAC contribution for this drink
-            // BAC = (A / (r * W * 10)) - (beta * T)
-            let bacFromDrink = (alcoholGrams / (r * user.weight * 10)) - (metabolismRate * hoursSinceDrink)
-
-            // Ensure that the BAC contribution is not negative
-            return max(0, bacFromDrink)
-        }
-
-        // Sum all BAC contributions
-        let totalBAC = bacContributions.reduce(0.0, +)
-
-        // Ensure BAC is not negative
-        return max(0, totalBAC)
-    }
-
-
-
-
-    
-    private func describeBACLevel(bac: Double) -> String {
-        switch bac {
-        case 0..<0.02: return "Normal behavior, no impairment"
-        case 0.02..<0.05: return "Mild impairment, slight mood elevation"
-        case 0.05..<0.08: return "Decreased coordination, euphoria"
-        case 0.08..<0.15: return "Significant impairment, poor judgment"
-        case 0.15..<0.3: return "Severe impairment, potential loss of consciousness"
-        case 0.3...: return "Potentially life-threatening"
-        default: return "Data unavailable"
-        }
-    }
-    
-    private func hoursUntilSober(bac: Double) -> Double {
-        // Assuming BAC drops at about 0.015 per hour
-        return max(0, bac / 0.015)
-    }
     
     private func setupNotification() {
         NotificationCenter.default.addObserver(forName: .didWipeData, object: nil, queue: .main) { _ in
@@ -199,7 +125,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(dataManager: DataManager(), user: User()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(dataManager: DataManager(context: PersistenceController.shared.container.viewContext), user: User()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
 

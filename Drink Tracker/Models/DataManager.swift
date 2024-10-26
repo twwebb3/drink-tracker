@@ -4,6 +4,11 @@ import Combine
 
 class DataManager: ObservableObject {
     @Published var refreshTrigger = false
+    private let viewContext: NSManagedObjectContext
+    
+    init(context: NSManagedObjectContext) {
+            self.viewContext = context
+        }
 
     func clearDrinkHistory(context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Drink")
@@ -24,6 +29,24 @@ class DataManager: ObservableObject {
             context.refreshAllObjects()  // Ensure UI is synced with the latest data state
         }
     }
+    
+    func addDrink(type: String, alcoholContent: Double, volume: Double) {
+        let newDrink = Drink(context: viewContext)
+        newDrink.type = type
+        newDrink.alcoholContent = alcoholContent
+        newDrink.volume = volume
+        newDrink.startTime = Date()
+        newDrink.endTime = Date().addingTimeInterval(3600) // For simplicity, 1 hour later
+        
+        do {
+            try viewContext.save()
+        } catch {
+            // Handle the Core Data error, e.g., show an error message
+            print(error.localizedDescription)
+        }
+    }
+    
+    
 }
 
 
