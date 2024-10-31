@@ -8,7 +8,24 @@ class DataManager: ObservableObject {
     
     init(context: NSManagedObjectContext) {
             self.viewContext = context
+    }
+    
+    private func setupNotification() {
+        
+        NotificationCenter.default.addObserver(forName: .didWipeData, object: nil, queue: .main) { _ in
+            self.refreshData()
         }
+        
+        NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave, object: nil, queue: .main) { _ in
+            self.refreshData()
+        }
+    }
+
+    func refreshData() {
+        viewContext.performAndWait {
+                viewContext.refreshAllObjects()
+            }
+    }
 
     func clearDrinkHistory(context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Drink")

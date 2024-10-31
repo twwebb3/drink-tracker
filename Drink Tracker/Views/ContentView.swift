@@ -58,7 +58,6 @@ struct ContentView: View {
                                         }
                                         .pickerStyle(MenuPickerStyle())
                 }
-                .onAppear(perform: setupNotification)
                 
                 Section(header: Text("Add Drink")) {
                     Button("Add Drink") {
@@ -93,7 +92,7 @@ struct ContentView: View {
                 
                 Section(header: Text("Refresh")) {
                     Button("Refresh Data") {
-                        self.refreshData()
+                        dataManager.refreshData()
                     }
                 }
             }
@@ -102,24 +101,6 @@ struct ContentView: View {
                 // Trigger a view refresh
             }
         }
-    }
-    
-    
-    
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(forName: .didWipeData, object: nil, queue: .main) { _ in
-            refreshData()
-        }
-        
-        NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave, object: nil, queue: .main) { _ in
-            refreshData()
-        }
-    }
-
-    private func refreshData() {
-        viewContext.performAndWait {
-                viewContext.refreshAllObjects()
-            }
     }
 }
 
