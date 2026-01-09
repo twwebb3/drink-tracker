@@ -50,6 +50,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
+                Section(header: Text("BAC Chart")) {
+                    BACChartView(user: user, drinks: Array(drinks))
+                }
+                
                 Section(header: Text("Select Drink")) {
                     Picker("Drink Type", selection: $selectedDrinkIndex) {
                                             ForEach(0..<predefinedDrinks.count, id: \.self) { index in
@@ -72,7 +76,7 @@ struct ContentView: View {
                     Text("Feeling: \(BACUtility.describeBACLevel(bac: bac))")
                     Text("Hours until sober: \(BACUtility.hoursUntilSober(bac: bac), specifier: "%.2f")")
                 }
-                
+
                 Section(header: Text("Last Drink")) {
                     if let lastDrink = drinks.last {
                                         Section {
